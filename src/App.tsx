@@ -1,30 +1,33 @@
-import { Button, Image } from '@chakra-ui/core';
-import React, { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import logo from './logo.svg';
+import { Button, Image } from "@chakra-ui/core";
+import React, { useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { Route } from "react-router-dom";
+import logo from "./logo.svg";
+import { Box } from "@chakra-ui/core";
+import {Layout} from './layouts/Layout'
 
 function App() {
 	const [data, setData] = useState<AxiosResponse | null>(null);
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get('http://localhost:3000/api/v1/tests'); console.log(response);
+			const response = await axios.get(
+				"http://railtracks-api.herokuapp.com/api/v1/tests"
+			);
+			console.log(response);
 			setData(response.data);
 		} catch (error) {
 			console.error(error);
 		}
 	};
+	// <Button variantColor="blue" onClick={fetchData}>
+	//   show data
+	// </Button>
 
 	return (
-		<div className="App">
-			<header>
-				<Image src={logo} alt="logo" />
-			</header>
-			<Button variantColor="blue" onClick={fetchData}>
-				show data
-			</Button>
-			<p>{data ? data.status : null}</p>
-		</div>
+		<Layout>
+			<Route path="/" component={} />
+		</Layout>
 	);
 }
 
