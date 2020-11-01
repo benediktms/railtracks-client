@@ -16,9 +16,9 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Box bg={bgColor[colorMode]} color={color[colorMode]}>
-        <Box minH='90vh'>
+        <Box minH="90vh">
           <Navbar />
-          <Flex justify='center'>{children}</Flex>
+          <Flex justify="center">{children}</Flex>
         </Box>
         <Footer />
       </Box>
