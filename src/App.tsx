@@ -9,12 +9,8 @@ import { Dashboard } from './pages/Dashboard';
 function App() {
   return (
     <Switch>
-      <Layout>
-        <Route exact path="/" component={Home} />
-      </Layout>
-      <Layout>
-        <Route exact path="/dashboard" component={Dashboard} />
-      </Layout>
+      <Route exact path={'/'} component={Home} />
+      <Route exact path={'/dashboard'} component={Dashboard} />
     </Switch>
   );
 }
