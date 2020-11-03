@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import axios, { AxiosResponse } from "axios";
 import { Route, Switch } from 'react-router-dom';
 
-import { Layout } from './layouts/Layout';
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
 
