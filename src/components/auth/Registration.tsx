@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import {
-  Flex,
   Heading,
   Button,
   Box,
   Input,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   FormHelperText,
 } from '@chakra-ui/core';
+import axios from 'axios';
 
-interface Registration {
+interface RegistrationState {
   email: string;
   password: string;
   password_confirmation: string;
@@ -19,7 +18,7 @@ interface Registration {
 }
 
 export const Registration = () => {
-  const [formState, setFormState] = useState<Registration>({
+  const [formState, setFormState] = useState<RegistrationState>({
     email: '',
     password: '',
     password_confirmation: '',
@@ -27,14 +26,36 @@ export const Registration = () => {
   });
 
   const handleSubmit = (event: any) => {
-    console.log('form submitted');
     event.preventDefault();
+
+    const endpoint = 'http://localhost:3000/api/v1/registrations';
+    const { email, password, password_confirmation } = formState;
+
+    axios.post(
+      endpoint,
+      {
+        user: {
+          email: email,
+          password: password,
+          password_confirmation: password_confirmation,
+        },
+      },
+      // NOTE: THIS IS CRITICAL! This tells the API it is ok to set the cookie in the client
+      { withCredentials: true }
+    );
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
-    setFormState({ [event.currentTarget.name]: event.currentTarget.value });
+  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+
+    console.log(formState);
+    // TS use Pick to ensure we are setting a key in the RegistrationState Interface
+    setFormState({
+      [name]: value,
+    } as Pick<RegistrationState, keyof RegistrationState>);
   };
+
+  // TODO: add some sort of validation logic
 
   return (
     <Box>
@@ -70,7 +91,7 @@ export const Registration = () => {
         <FormControl isRequired>
           <FormLabel htmlFor="email">Password confirmation</FormLabel>
           <Input
-            type="password_confirmation"
+            type="password"
             id="password_confirmation"
             aria-describedby="password_confirmation-helper-text"
             onChange={handleChange}
