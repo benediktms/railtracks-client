@@ -14,7 +14,6 @@ interface RegistrationState {
   email: string;
   password: string;
   password_confirmation: string;
-  registrationErrors: string;
 }
 
 export const Registration = () => {
@@ -22,37 +21,43 @@ export const Registration = () => {
     email: '',
     password: '',
     password_confirmation: '',
-    registrationErrors: '',
   });
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const endpoint = 'http://localhost:3000/api/v1/registrations';
     const { email, password, password_confirmation } = formState;
 
-    axios.post(
-      endpoint,
-      {
-        user: {
-          email: email,
-          password: password,
-          password_confirmation: password_confirmation,
+    axios
+      .post(
+        endpoint,
+        {
+          user: {
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation,
+          },
         },
-      },
-      // NOTE: THIS IS CRITICAL! This tells the API it is ok to set the cookie in the client
-      { withCredentials: true }
-    );
+        // NOTE: THIS IS CRITICAL! This tells the API it is ok to set the cookie in the client
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log('registration response:', response);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+    event.preventDefault();
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
 
-    console.log(formState);
     // TS use Pick to ensure we are setting a key in the RegistrationState Interface
     setFormState({
+      ...formState,
       [name]: value,
     } as Pick<RegistrationState, keyof RegistrationState>);
+    console.log(formState);
   };
 
   // TODO: add some sort of validation logic
@@ -66,7 +71,7 @@ export const Registration = () => {
           <FormLabel htmlFor="email">Email address</FormLabel>
           <Input
             type="email"
-            id="email"
+            name="email"
             aria-describedby="email-helper-text"
             onChange={handleChange}
           />
@@ -79,7 +84,7 @@ export const Registration = () => {
           <FormLabel htmlFor="email">Password</FormLabel>
           <Input
             type="password"
-            id="password"
+            name="password"
             aria-describedby="password-helper-text"
             onChange={handleChange}
           />
@@ -92,7 +97,7 @@ export const Registration = () => {
           <FormLabel htmlFor="email">Password confirmation</FormLabel>
           <Input
             type="password"
-            id="password_confirmation"
+            name="password_confirmation"
             aria-describedby="password_confirmation-helper-text"
             onChange={handleChange}
           />
@@ -101,7 +106,7 @@ export const Registration = () => {
           </FormHelperText>
         </FormControl>
 
-        <Button mr={2} variantColor="blue" type="submit">
+        <Button mt={2} variantColor="blue" type="submit">
           Sign up
         </Button>
       </form>
