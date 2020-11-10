@@ -4,7 +4,7 @@ import { Layout } from '../layouts/Layout';
 
 import { Registration } from '../components/auth/Registration';
 
-export const Home = () => {
+export const Home = (): JSX.Element => {
   return (
     <Layout>
       <Box>

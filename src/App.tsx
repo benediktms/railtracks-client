@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
 
-function App() {
+function App(): JSX.Element {
   return (
     <Switch>
       <Route exact path={'/'} component={Home} />
