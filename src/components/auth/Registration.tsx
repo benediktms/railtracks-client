@@ -44,7 +44,7 @@ export const Registration = () => {
       console.log(data);
     } catch (error) {
       console.error(error);
-      throw new Error(`Error: ${error}`)
+      throw new Error(`Error: ${error}`);
     }
   };
 
