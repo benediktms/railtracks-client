@@ -23,12 +23,12 @@ export const Registration = () => {
     password_confirmation: '',
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const endpoint = 'http://localhost:3000/api/v1/registrations';
-    const { email, password, password_confirmation } = formState;
+  const endpoint = 'http://localhost:3000/api/v1/registrations';
+  const { email, password, password_confirmation } = formState;
 
-    axios
-      .post(
+  const registerUser = async () => {
+    try {
+      const { data } = await axios.post(
         endpoint,
         {
           user: {
@@ -39,13 +39,17 @@ export const Registration = () => {
         },
         // NOTE: THIS IS CRITICAL! This tells the API it is ok to set the cookie in the client
         { withCredentials: true }
-      )
-      .then((response) => {
-        console.log('registration response:', response);
-      })
-      .catch((error) => {
-        alert(error);
-      });
+      );
+      // TODO add a toast message here
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Error: ${error}`)
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    registerUser();
     event.preventDefault();
   };
 
@@ -57,7 +61,7 @@ export const Registration = () => {
       ...formState,
       [name]: value,
     } as Pick<RegistrationState, keyof RegistrationState>);
-    console.log(formState);
+    // console.log(formState);
   };
 
   // TODO: add some sort of validation logic
