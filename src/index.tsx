@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Layout } from './layouts/Layout';
 import { ColorModeProvider, CSSReset, ThemeProvider } from '@chakra-ui/core';
 import { BrowserRouter } from 'react-router-dom';
+
+import App from './app/App';
+import { LoggedInContextProvider } from './app/AppContext';
 
 const app = (
   <React.StrictMode>
     <ThemeProvider>
       <CSSReset />
       <ColorModeProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <LoggedInContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </LoggedInContextProvider>
       </ColorModeProvider>
     </ThemeProvider>
   </React.StrictMode>

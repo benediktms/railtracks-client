@@ -16,14 +16,14 @@ interface RegistrationState {
   password_confirmation: string;
 }
 
-export const Registration = () => {
+export const Registration = (): React.FC => {
   const [formState, setFormState] = useState<RegistrationState>({
     email: '',
     password: '',
     password_confirmation: '',
   });
 
-  const endpoint = 'http://localhost:3000/api/v1/registrations';
+  const endpoint = 'http://localhost:3000/api/v1/users';
   const { email, password, password_confirmation } = formState;
 
   const registerUser = async () => {
@@ -43,7 +43,6 @@ export const Registration = () => {
       // TODO add a toast message here
       console.log(data);
     } catch (error) {
-      console.error(error);
       throw new Error(`Error: ${error}`);
     }
   };
